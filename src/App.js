@@ -10,7 +10,7 @@ import Loader from './components/Loader';
 
 export default class App extends Component {
   state = {
-    searchQuery: '',
+    searchQuery: 'landscape',
     isLoading: false,
     page: 1,
     images: [],
@@ -20,6 +20,10 @@ export default class App extends Component {
     error: null,
   };
 
+  componentDidMount() {
+    this.fetchImages();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImages();
@@ -27,11 +31,14 @@ export default class App extends Component {
   }
 
   handleSubmitForm = query => {
+    if (this.state.searchQuery === query) {
+      return;
+    }
+
     this.setState({
       searchQuery: query,
       page: 1,
       images: [],
-      // error: false,
     });
   };
 
